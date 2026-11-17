@@ -11,16 +11,15 @@
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        | integration / workflow |
-|   2 |        |      |       |        | single agent |
-|   3 |        |      |       |        | orchestrator / handoff |
+|   1 | Nguyễn Tùng Dương | 2A202603850 | nguyenduong342003@gmail.com | nguyenduong43 | Leader / integration / workflow |
+|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn | https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
+|   3 | Nguyễn Lâm Tùng | 2A202603854 | nlamtung.work@gmail.com | nlamtung | orchestrator / handoff |
 |   4 | Lê Danh Giang | 2A202603912 | 26ai.giangld@vinuni.edu.vn | https://github.com/giangj | durability / crash |
 |   5 |        |      |       |        | evaluation / benchmark |
 
 Gợi ý chia vai:
 
-- Nhóm 6 người: integration; workflow; single agent; orchestrator; ledger/policy/crash; eval/report.
-- Nhóm 4 người: workflow + integration; single; orchestrator + handoff; ledger + evaluation.
+- Nhóm 5 người: TV1 (Leader/Workflow), TV2 (Single ReAct), TV3 (Orchestrator/Handoff), TV4 (Durability/Crash/Security), TV5 (Benchmark/ADR).
 
 ## Bảng đóng góp
 
@@ -28,6 +27,9 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
+| Nguyễn Tùng Dương | Leader / integration / workflow | feat(workflow) | src/tests/test_workflow.py::test_workflow_delay_refund_ok |
+| Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | `src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing` |
+| Nguyễn Lâm Tùng | orchestrator / handoff | 97ea1a0 | src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii |
 | Lê Danh Giang | durability / crash | 4a5f381 | src/tests/test_tv4_durability.py::test_idempotency_same_claim; src/tests/test_tv4_durability.py::test_all_crash_points_recover_without_duplicate_refund; src/tests/test_tv4_durability.py::test_approval_mismatch_revoked_expired_and_missing_record_policy_denied; src/tests/test_tv4_durability.py::test_order_cap_blocks_t13_and_pays_difference_on_t14 |
 
 ## Cá nhân
@@ -42,37 +44,69 @@ Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 Sao chép mục dưới đây cho từng thành viên.
 
-## MSSV_HoTen
+## 2A202603854_NguyenLamTung
 
 ### Phần việc phụ trách
 
--
+- Cài đặt Shape C — Orchestrator & Investigator (`src/lab8/shapes/orchestrator.py`).
+- Viết bộ kiểm thử độc lập cho Orchestrator & Handoff (`src/tests/test_orchestrator_handoff.py`).
+- Đảm bảo ranh giới bảo mật Handoff Sanitization (`make_handoff`): chỉ chuyển field allowlist, không lộ parent secret hay PII.
 
 ### Đóng góp cụ thể
 
--
+- Cài đặt mô hình điều phối 2 tầng (Orchestrator + Read-only Investigator): Orchestrator nhận claim, đóng gói handoff và ủy quyền tra cứu cho Investigator qua `run_readonly_investigators`.
+- Đảm bảo an toàn Handoff qua `lab8.handoff.make_handoff`: loại bỏ hoàn toàn `parent_secret`, `raw_headers` và chỉ cấp các read tools (`lookup_order`, `lookup_policy`, `compute_compensation`).
+- Đảm bảo tiền bồi thường tính bằng hàm chuẩn `compute_compensation`, Orchestrator gọi Host `durability.issue_refund` để ghi ledger. Investigator không có quyền ghi.
+- Xử lý dừng sớm (`needs_info`, `escalated`) và bảo vệ dữ liệu PII/secret trong trace.
+- Chuyển tiếp an toàn `crash_at` vào `durability.issue_refund`, không nuốt exception `InjectedCrash`.
+- Viết 5 unit tests độc lập kiểm tra sanitization, chặn write tools, dừng sớm, chống leak PII và ủy quyền an toàn.
 
 ### Bằng chứng
 
--
+- File test: `src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii` (5/5 passed).
+- Ma trận test student: 62/62 tests của `orchestrator` passed 100%.
+- Kiểm tra submission: `[ OK ] shape orchestrator: format đúng, 12/12 claim public pass ở seed 11`.
+
+## 2A202603850_NguyenTungDuong
+
+### Phần việc phụ trách
+
+- Leader nhóm: Quản lý repo, phân công vai trò, thiết lập môi trường và điều phối tiến độ.
+- Triển khai Shape A (Workflow): Cài đặt luồng deterministic workflow trong `src/lab8/shapes/workflow.py`.
+- Viết test kiểm thử cho Shape A trong `src/tests/test_workflow.py`.
+- Đồng tác giả báo cáo nhóm `report/team/group_report.md`.
+
+### Đóng góp cụ thể
+
+- Triển khai hoàn chỉnh Shape A pass 62/62 test student của đề bài.
+- Đảm bảo ranh giới an toàn: Tiền do code tính bằng `compute_compensation`, model không can thiệp ghi ledger.
+- Xử lý trần theo đơn bằng cách truyền quote đầy đủ vào `durability.issue_refund`, hỗ trợ `crash_at` an toàn cho khôi phục sau crash.
+- Viết unit tests kiểm thử các nhánh rẽ nghiệp vụ: `test_workflow_delay_refund_ok` và `test_workflow_missing_order_needs_info`.
+
+### Bằng chứng
+
+- File mã nguồn: `src/lab8/shapes/workflow.py`
+- File unit test: `src/tests/test_workflow.py`
+- Báo cáo cá nhân chi tiết: `report/team/2A202603850_NguyenTungDuong.md`
+- Kết quả test: `pytest -q -m student -o addopts= -k workflow` -> 62 passed in 0.32s
 
 ## 2A202603912_LeDanhGiang
 
 ### Phần việc phụ trách
 
 - Thành viên 4 (TV4) — Durability, Crash Safety & Bảo mật (CP3, CP4).
+- Hoàn thiện `TODO CP3` (`crash_at` và `InjectedCrash`) cho Shape B (`src/lab8/shapes/single.py`) và kiểm định toàn bộ 3 shape (`workflow`, `single`, `orchestrator`).
 - Nghiệm thu bộ crash suite `src/reports/crash.json` (`20/20`).
 - Viết bộ test kiểm định idempotency, crash/resume, approval binding, trần theo đơn và bảo mật trace trong `src/tests/test_tv4_durability.py`.
 - Viết mục Durability, Crash Safety & Bảo mật trong `report/team/group_report.md` và báo cáo cá nhân `report/team/2A202603912_LeDanhGiang.md`.
 
 ### Đóng góp cụ thể
 
-- Commit kỹ thuật `4a5f381`: thêm `src/tests/test_tv4_durability.py` (10 test tầng host/durability/policy/swarm + 18 test `@pytest.mark.student` cho cả 3 shape `workflow`, `single`, `orchestrator`) và `src/reports/crash.json` (`20/20`).
-- Rà soát code nhánh các thành viên trước khi merge `main`: xác nhận `workflow.py` và `orchestrator.py` đã truyền `crash_at`; ghi chú để nhóm bổ sung `crash_at` cho `single.py` trên nhánh `NguyenNgocVinh` và khôi phục `report/team/MSSV_HoTen.md` khi merge.
+- Commit `4a5f381`: thêm `src/tests/test_tv4_durability.py` và `src/reports/crash.json` (`20/20`).
+- Tích hợp `crash_at` vào `src/lab8/shapes/single.py` (không nuốt `InjectedCrash`), giúp toàn bộ 3 shape (`workflow`, `single`, `orchestrator`) pass đủ T01–T14 và bộ test TV4.
 
 ### Bằng chứng
 
-- Commit hash: `4a5f381`
-- File test: `src/tests/test_tv4_durability.py` (`10 passed` cổng host, `64 passed` toàn bộ `pytest -q`)
+- File test: `src/tests/test_tv4_durability.py`
 - Báo cáo crash: `src/reports/crash.json` (`crash_safety = "20/20"`)
 - Báo cáo cá nhân: `report/team/2A202603912_LeDanhGiang.md`
