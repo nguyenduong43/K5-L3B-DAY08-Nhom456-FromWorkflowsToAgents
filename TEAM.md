@@ -12,7 +12,8 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 |        |      |       |        |         |
-|   2 |        |      |       |        |         |
+|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn
+ | https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
 
 Gợi ý chia vai:
 
@@ -25,7 +26,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| | | | |
+| Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | `src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing` |
 
 ## Cá nhân
 
