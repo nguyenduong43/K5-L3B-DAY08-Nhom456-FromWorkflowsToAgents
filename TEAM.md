@@ -6,9 +6,9 @@
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-Nhom456-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo, nhánh nộp, commit chốt:
-Repo:https://github.com/nguyenduong43/K5-L3B-DAY08-Nhom456-FromWorkflowsToAgents.git
-Nhánh nộp:NguyenTungDuong
-Commit chốt:feat(workflow): implement Shape A deterministic workflow and unit tests
+Repo:
+Nhánh nộp:
+Commit chốt:feat(workflow): 
 
 ## Thành viên
 
