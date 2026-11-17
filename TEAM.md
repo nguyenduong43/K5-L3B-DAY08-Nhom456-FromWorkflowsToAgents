@@ -13,7 +13,7 @@
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 |        |      |       |        |         |
 |   2 |        |      |       |        |         |
-|   3 | Nguyễn Lâm Tùng | 2A202603854 | nlamtung.work@gmail.com | nlamtung | single agent |
+|   3 | Nguyễn Lâm Tùng | 2A202603854 | nlamtung.work@gmail.com | nlamtung | orchestrator / handoff |
 Gợi ý chia vai:
 
 - Nhóm 6 người: integration; workflow; single agent; orchestrator; ledger/policy/crash; eval/report.
@@ -25,7 +25,7 @@ Gợi ý chia vai:
 
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
-| Nguyễn Lâm Tùng | single agent | 034c6c4 | src/tests/test_single_agent.py::test_react_step_limit_enforced |
+| Nguyễn Lâm Tùng | orchestrator / handoff | 97ea1a0 | src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii |
 
 ## Cá nhân
 
@@ -43,20 +43,21 @@ Sao chép mục dưới đây cho từng thành viên.
 
 ### Phần việc phụ trách
 
-- Cài đặt Shape B — Single ReAct Agent (`src/lab8/shapes/single.py`).
-- Viết bộ kiểm thử độc lập cho Single Agent (`src/tests/test_single_agent.py`).
-- Đảm bảo ranh giới bảo mật Code / Model: model chỉ gọi read tools, code tính tiền và host ghi ledger.
+- Cài đặt Shape C — Orchestrator & Investigator (`src/lab8/shapes/orchestrator.py`).
+- Viết bộ kiểm thử độc lập cho Orchestrator & Handoff (`src/tests/test_orchestrator_handoff.py`).
+- Đảm bảo ranh giới bảo mật Handoff Sanitization (`make_handoff`): chỉ chuyển field allowlist, không lộ parent secret hay PII.
 
 ### Đóng góp cụ thể
 
-- Cài đặt vòng lặp ReAct giới hạn tối đa 8 bước (`max_steps=8, worker=True`) qua `run_react`.
-- Tách biệt ranh giới tính tiền bằng hàm chuẩn `compute_compensation`, model chỉ đóng vai trò think / draft.
-- Xử lý các điều kiện dừng sớm (`needs_info`, `escalated`) và bảo vệ dữ liệu PII/secret trong trace.
+- Cài đặt mô hình điều phối 2 tầng (Orchestrator + Read-only Investigator): Orchestrator nhận claim, đóng gói handoff và ủy quyền tra cứu cho Investigator qua `run_readonly_investigators`.
+- Đảm bảo an toàn Handoff qua `lab8.handoff.make_handoff`: loại bỏ hoàn toàn `parent_secret`, `raw_headers` và chỉ cấp các read tools (`lookup_order`, `lookup_policy`, `compute_compensation`).
+- Đảm bảo tiền bồi thường tính bằng hàm chuẩn `compute_compensation`, Orchestrator gọi Host `durability.issue_refund` để ghi ledger. Investigator không có quyền ghi.
+- Xử lý dừng sớm (`needs_info`, `escalated`) và bảo vệ dữ liệu PII/secret trong trace.
 - Chuyển tiếp an toàn `crash_at` vào `durability.issue_refund`, không nuốt exception `InjectedCrash`.
-- Viết 4 test case độc lập kiểm thử giới hạn bước lặp, dừng sớm, chống leak PII và chặn lệnh ghi tiền.
+- Viết 5 unit tests độc lập kiểm tra sanitization, chặn write tools, dừng sớm, chống leak PII và ủy quyền an toàn.
 
 ### Bằng chứng
 
-- File test: `src/tests/test_single_agent.py::test_react_step_limit_enforced` (4/4 passed).
-- Ma trận test student: 62/62 tests của `single` passed 100%.
-- Kiểm tra submission: `[ OK ] shape single: format đúng, 12/12 claim public pass ở seed 11`.
+- File test: `src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii` (5/5 passed).
+- Ma trận test student: 62/62 tests của `orchestrator` passed 100%.
+- Kiểm tra submission: `[ OK ] shape orchestrator: format đúng, 12/12 claim public pass ở seed 11`.
