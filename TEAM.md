@@ -30,7 +30,7 @@ Gợi ý chia vai:
 | Nguyễn Tùng Dương | Leader / integration / workflow | feat(workflow) | src/tests/test_workflow.py::test_workflow_delay_refund_ok |
 | Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | `src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing` |
 | Nguyễn Lâm Tùng | orchestrator / handoff | 97ea1a0 | src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii |
-| Lê Danh Giang | durability / crash | 4a5f381, 638b24c | src/tests/test_tv4_durability.py::test_idempotency_same_claim; src/tests/test_tv4_durability.py::test_shapes_t12_crash_points_propagate_and_resume_safely; src/tests/test_tv4_durability.py::test_shapes_reject_approval_claim_mismatch_and_audit_policy_denied; src/tests/test_tv4_durability.py::test_shapes_respect_order_cap_t13_and_t14 |
+| Lê Danh Giang | durability / crash | 4a5f381, 638b24c | src/tests/test_durability.py::test_idempotency_same_claim; src/tests/test_durability.py::test_shapes_t12_crash_points_propagate_and_resume_safely; src/tests/test_durability.py::test_shapes_reject_approval_claim_mismatch_and_audit_policy_denied; src/tests/test_durability.py::test_shapes_respect_order_cap_t13_and_t14 |
 
 ## Cá nhân
 
@@ -97,17 +97,17 @@ Sao chép mục dưới đây cho từng thành viên.
 - Thành viên 4 (TV4) — Durability, Crash Safety & Bảo mật (CP3, CP4).
 - Hoàn thiện `TODO CP3` (`crash_at` và `InjectedCrash`) cho Shape B (`src/lab8/shapes/single.py`) và kiểm định toàn bộ 3 shape (`workflow`, `single`, `orchestrator`).
 - Nghiệm thu bộ crash suite `src/reports/crash.json` (`20/20`).
-- Viết bộ test kiểm định idempotency, crash/resume, approval binding, trần theo đơn và bảo mật trace trong `src/tests/test_tv4_durability.py`.
-- Viết mục Durability, Crash Safety & Bảo mật trong `report/team/group_report.md` và báo cáo cá nhân `report/team/2A202603912_LeDanhGiang.md`.
+- Viết bộ test kiểm định idempotency, crash/resume, approval binding, trần theo đơn và bảo mật trace trong `src/tests/test_durability.py`.
+- Hoàn thiện báo cáo cá nhân `report/team/2A202603912_LeDanhGiang.md`.
 
 ### Đóng góp cụ thể
 
-- Commit `4a5f381`: thêm `src/tests/test_tv4_durability.py` và `src/reports/crash.json` (`20/20`).
-- Commit `638b24c`: tích hợp `crash_at` vào `src/lab8/shapes/single.py` (ghi trace crash và re-raise `InjectedCrash`), giúp toàn bộ 3 shape (`workflow`, `single`, `orchestrator`) pass 100% ma trận T01–T14 và bộ test TV4.
+- Commit `4a5f381` (sau đổi tên thành `src/tests/test_durability.py`): thêm bộ kiểm thử durability/security và `src/reports/crash.json` (`20/20`).
+- Commit `638b24c`: tích hợp `crash_at` vào `src/lab8/shapes/single.py` (ghi trace crash và re-raise `InjectedCrash`), giúp toàn bộ 3 shape (`workflow`, `single`, `orchestrator`) pass 100% ma trận T01–T14 và bộ test `test_durability.py`.
 
 ### Bằng chứng
 
-- File test: `src/tests/test_tv4_durability.py` (`73 passed` cổng host, `266 passed` toàn bộ ma trận `@pytest.mark.student`)
+- File test: `src/tests/test_durability.py` (`73 passed` cổng host, `266 passed` toàn bộ ma trận `@pytest.mark.student`)
 - Báo cáo crash: `src/reports/crash.json` (`crash_safety = "20/20"`)
 - Kiểm tra submission: 3/3 shape (`workflow`, `single`, `orchestrator`) đạt `[ OK ]` (12/12 seed 11), `reports/crash.json: 20/20` `[ OK ]`, `TEAM.md` `[ OK ]`
 - Báo cáo cá nhân: `report/team/2A202603912_LeDanhGiang.md`

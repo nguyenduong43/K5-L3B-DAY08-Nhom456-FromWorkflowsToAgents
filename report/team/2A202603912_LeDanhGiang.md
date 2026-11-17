@@ -15,16 +15,16 @@
   - Thiết lập và kiểm định cơ chế idempotency (`refund:{claim_id}`), xử lý lỗi khi crash giữa transaction và checkpoint.
   - Nghiệm thu bộ kiểm thử 20 điểm crash (`src/reports/crash.json` đạt `20/20`).
   - Kiểm tra cổng duyệt (`approval_claim_mismatch`, `approval_revoked`, `approval_expired`, `missing_approval`), trần hoàn tiền theo đơn (T13, T14), và bảo mật trace (`CANARY_SECRET_*`, PII).
-  - Viết bộ kiểm thử `src/tests/test_tv4_durability.py`.
-  - Đóng góp phần Durability, Crash Safety & Bảo mật trong `report/team/group_report.md` và cập nhật `TEAM.md`.
+  - Viết bộ kiểm thử `src/tests/test_durability.py`.
+  - Cập nhật thông tin đóng góp trong `TEAM.md` và hoàn thiện báo cáo cá nhân.
 
 ## 3. Đóng góp cụ thể
 
 - **Nhánh làm việc:** `LeDanhGiang-03912` (đã cập nhật và đồng bộ với `origin/main` qua merge commit `b3977b1`).
 - **Các commit kỹ thuật chính:**
-  - `4a5f381` — `test(durability): add TV4 durability/security suite and 20/20 crash report`:
+  - `4a5f381` (và đổi tên chuẩn nhóm thành `src/tests/test_durability.py`):
     - Thêm `src/reports/crash.json` đạt `20/20`.
-    - Thêm `src/tests/test_tv4_durability.py` gồm 10 test tầng host/durability/policy/swarm (`pytest -q`) và 18 test `@pytest.mark.student` phủ cả 3 shape (`workflow`, `single`, `orchestrator`) cho T11, 3 điểm crash T12 (`before_effect`, `after_effect_before_checkpoint`, `after_checkpoint`), `approval_claim_mismatch` và trần theo đơn T13/T14.
+    - Thêm `src/tests/test_durability.py` gồm 10 test tầng host/durability/policy/swarm (`pytest -q`) và 18 test `@pytest.mark.student` phủ cả 3 shape (`workflow`, `single`, `orchestrator`) cho T11, 3 điểm crash T12 (`before_effect`, `after_effect_before_checkpoint`, `after_checkpoint`), `approval_claim_mismatch` và trần theo đơn T13/T14.
   - `638b24c` — `fix(single): wire crash_at and propagate InjectedCrash for CP3`:
     - Khi rà soát `origin/main`, phát hiện `src/lab8/shapes/single.py` vẫn còn `# TODO CP3 (student)` / `del crash_at` khiến T12 và 3 điểm crash trên `single` bị fail (`DID NOT RAISE InjectedCrash` — 4 failed trên tổng 266 test).
     - Đã sửa `src/lab8/shapes/single.py` để truyền `crash_at=crash_at` vào `issue_refund`, ghi event `crash` vào trace khi gặp `InjectedCrash` và `raise` lại đúng chuẩn như `workflow.py` và `orchestrator.py`.
@@ -44,7 +44,7 @@
 
 ## 5. Công cụ AI đã dùng
 
-- **Công cụ sử dụng:** Trợ lý lập trình AI (Antigravity / Gemini) để hỗ trợ đọc hiểu toàn bộ codebase (`durability.py`, `policy.py`, `metrics.py`, `crash_test.py`, `check_submission.py`), rà soát mã nguồn các shape trên `main`, thiết kế bộ test `src/tests/test_tv4_durability.py`, sửa `TODO CP3` trong `single.py` và tổng hợp báo cáo.
+- **Công cụ sử dụng:** Trợ lý lập trình AI (Antigravity / Gemini) để hỗ trợ đọc hiểu toàn bộ codebase (`durability.py`, `policy.py`, `metrics.py`, `crash_test.py`, `check_submission.py`), rà soát mã nguồn các shape trên `main`, thiết kế bộ test `src/tests/test_durability.py`, sửa `TODO CP3` trong `single.py` và tổng hợp báo cáo.
 - **Cách tự kiểm tra kết quả:**
   - Chạy thực nghiệm kiểm chứng trước và sau khi sửa `single.py`: trước khi sửa ghi nhận đúng 4 test T12/crash fail ở `single`; sau khi sửa chạy lại toàn bộ `pytest -q`, `pytest -q -m student -o addopts=`, `lab8.crash_test` và `lab8.check_submission` đều đạt xanh.
   - Đối chiếu trực tiếp `src/reports/crash.json` và giữ nguyên toàn bộ các file thước đo (`durability.py`, `policy.py`, `metrics.py`, `config/*.yaml`, `data/*`).
