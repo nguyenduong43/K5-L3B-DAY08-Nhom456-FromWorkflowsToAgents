@@ -24,7 +24,7 @@ import sqlite3
 from typing import Any
 
 from lab8.db import connect
-from lab8.durability import issue_refund
+from lab8.durability import InjectedCrash, issue_refund
 from lab8.mock_llm import complete
 from lab8.runtime import run_react
 from lab8.schemas import Budget, RunResult, make_run_id
@@ -189,9 +189,12 @@ def _run(
             error_reason=reason,
         )
 
-    # TODO CP3 (student): pass crash_at=crash_at and let InjectedCrash propagate.
-    del crash_at
-    outcome = issue_refund(conn, claim_id, proposal)
+    try:
+        outcome = issue_refund(conn, claim_id, proposal, crash_at=crash_at)
+    except InjectedCrash:
+        trace.add("crash", {"at": crash_at})
+        trace.write()
+        raise
     if not outcome["ok"]:
         status = "failed" if outcome["conflict"] else "denied"
         trace.add("decision", {"status": status, "reason": outcome["reason"]})

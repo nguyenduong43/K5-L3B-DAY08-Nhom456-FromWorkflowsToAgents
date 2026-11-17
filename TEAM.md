@@ -5,20 +5,17 @@
 - Tên nhóm: Nhom456
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY08-Nhom456-FromWorkflowsToAgents` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
-Repo:
-Nhánh nộp:
-Commit chốt:feat(workflow): 
+- URL repo, nhánh nộp, commit chốt: 
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Nguyễn Tùng Dương | 2A202603850 | nguyenduong342003@gmail.com | nguyenduong43 | Leader / integration / workflow |
-|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn| https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
+|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn | https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
 |   3 | Nguyễn Lâm Tùng | 2A202603854 | nlamtung.work@gmail.com | nlamtung | orchestrator / handoff |
-|   4 |        |      |       |        |         |
-|   5 |        |      |       |        |         |
+|   4 | Lê Danh Giang | 2A202603912 | 26ai.giangld@vinuni.edu.vn | https://github.com/giangj | durability / crash |
+|   5 |        |      |       |        | evaluation / benchmark |
 
 Gợi ý chia vai:
 
@@ -33,6 +30,8 @@ Gợi ý chia vai:
 | Nguyễn Tùng Dương | Leader / integration / workflow | feat(workflow) | src/tests/test_workflow.py::test_workflow_delay_refund_ok |
 | Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | `src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing` |
 | Nguyễn Lâm Tùng | orchestrator / handoff | 97ea1a0 | src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii |
+| Lê Danh Giang | durability / crash | 4a5f381, 638b24c | src/tests/test_durability.py::test_idempotency_same_claim; src/tests/test_durability.py::test_shapes_t12_crash_points_propagate_and_resume_safely; src/tests/test_durability.py::test_shapes_reject_approval_claim_mismatch_and_audit_policy_denied; src/tests/test_durability.py::test_shapes_respect_order_cap_t13_and_t14 |
+
 ## Cá nhân
 
 Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/` theo dạng:
@@ -67,6 +66,7 @@ Sao chép mục dưới đây cho từng thành viên.
 - File test: `src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii` (5/5 passed).
 - Ma trận test student: 62/62 tests của `orchestrator` passed 100%.
 - Kiểm tra submission: `[ OK ] shape orchestrator: format đúng, 12/12 claim public pass ở seed 11`.
+
 ## 2A202603850_NguyenTungDuong
 
 ### Phần việc phụ trách
@@ -89,3 +89,25 @@ Sao chép mục dưới đây cho từng thành viên.
 - File unit test: `src/tests/test_workflow.py`
 - Báo cáo cá nhân chi tiết: `report/team/2A202603850_NguyenTungDuong.md`
 - Kết quả test: `pytest -q -m student -o addopts= -k workflow` -> 62 passed in 0.32s
+
+## 2A202603912_LeDanhGiang
+
+### Phần việc phụ trách
+
+- Thành viên 4 (TV4) — Durability, Crash Safety & Bảo mật (CP3, CP4).
+- Hoàn thiện `TODO CP3` (`crash_at` và `InjectedCrash`) cho Shape B (`src/lab8/shapes/single.py`) và kiểm định toàn bộ 3 shape (`workflow`, `single`, `orchestrator`).
+- Nghiệm thu bộ crash suite `src/reports/crash.json` (`20/20`).
+- Viết bộ test kiểm định idempotency, crash/resume, approval binding, trần theo đơn và bảo mật trace trong `src/tests/test_durability.py`.
+- Hoàn thiện báo cáo cá nhân `report/team/2A202603912_LeDanhGiang.md`.
+
+### Đóng góp cụ thể
+
+- Commit `4a5f381` (sau đổi tên thành `src/tests/test_durability.py`): thêm bộ kiểm thử durability/security và `src/reports/crash.json` (`20/20`).
+- Commit `638b24c`: tích hợp `crash_at` vào `src/lab8/shapes/single.py` (ghi trace crash và re-raise `InjectedCrash`), giúp toàn bộ 3 shape (`workflow`, `single`, `orchestrator`) pass 100% ma trận T01–T14 và bộ test `test_durability.py`.
+
+### Bằng chứng
+
+- File test: `src/tests/test_durability.py` (`73 passed` cổng host, `266 passed` toàn bộ ma trận `@pytest.mark.student`)
+- Báo cáo crash: `src/reports/crash.json` (`crash_safety = "20/20"`)
+- Kiểm tra submission: 3/3 shape (`workflow`, `single`, `orchestrator`) đạt `[ OK ]` (12/12 seed 11), `reports/crash.json: 20/20` `[ OK ]`, `TEAM.md` `[ OK ]`
+- Báo cáo cá nhân: `report/team/2A202603912_LeDanhGiang.md`
