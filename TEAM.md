@@ -12,7 +12,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Nguyễn Tùng Dương | 2A202603850 | nguyenduong342003@gmail.com | nguyenduong43 | Leader / integration / workflow |
-|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn | https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
+|   2 | Nguyễn Ngọc Vinh | 2A202603877 | 26ai.vinhnn2@vinuni.edu.vn | https://github.com/cuakicuc4444 | Phụ trách Shape B — Single Agent trong src/lab8/shapes/single.py: xây dựng vòng ReAct tối đa 8 bước, chỉ sử dụng read tools; phần tính quote do code thực hiện và thao tác ghi refund đi qua host. |
 |   3 | Nguyễn Lâm Tùng | 2A202603854 | nlamtung.work@gmail.com | nlamtung | orchestrator / handoff |
 |   4 | Lê Danh Giang | 2A202603912 | 26ai.giangld@vinuni.edu.vn | https://github.com/giangj | durability / crash |
 |   5 | Đỗ Duy Tùng | 2A202603844 | Chuẩn bị Báo cáo cá nhân cho TV5      | Presceltooo       | evaluation / benchmark |
@@ -28,10 +28,10 @@ Gợi ý chia vai:
 | Người | Vai | Commit | Test đã thêm hoặc sửa |
 | --- | --- | --- | --- |
 | Nguyễn Tùng Dương | Leader / integration / workflow | feat(workflow) | src/tests/test_workflow.py::test_workflow_delay_refund_ok |
-| Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | `src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing` |
+| Nguyễn Ngọc Vinh | Thành viên 2 / single agent | Chưa commit — điền hash sau khi commit | src/tests/test_single.py::test_single_caps_react_at_eight_steps`; `src/tests/test_single.py::test_single_requests_information_when_order_id_is_missing |
 | Nguyễn Lâm Tùng | orchestrator / handoff | 97ea1a0 | src/tests/test_orchestrator_handoff.py::test_handoff_drops_secrets_and_pii |
 | Lê Danh Giang | durability / crash | 4a5f381, 638b24c | src/tests/test_durability.py::test_idempotency_same_claim; src/tests/test_durability.py::test_shapes_t12_crash_points_propagate_and_resume_safely; src/tests/test_durability.py::test_shapes_reject_approval_claim_mismatch_and_audit_policy_denied; src/tests/test_durability.py::test_shapes_respect_order_cap_t13_and_t14 |
-| Đỗ Duy Tùng | evaluation / benchmark | Hoàn thành benchmark pharse 1 | src/tests/test_tv5_benchmark.py::test_trace_contract_schema |
+| Đỗ Duy Tùng | evaluation / benchmark | Đẩy lại pharse 1 | src/tests/test_tv5_benchmark.py::test_trace_contract_schema |
 
 ## Cá nhân
 

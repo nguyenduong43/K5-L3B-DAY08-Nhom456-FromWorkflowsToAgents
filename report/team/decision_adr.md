@@ -3,13 +3,13 @@
 Điền sau dấu `:` trên cùng dòng, không xóa nhãn. Giảng viên và `python -m lab8.check_submission` (chạy trong `src/`) đọc các dòng này bằng máy. Không đổi tên hay dời file này khỏi `report/team/`.
 `Shape chọn` phải là đúng một trong: `workflow`, `single`, `orchestrator`, `swarm`. Đây là shape được chấm cổng hidden.
 
-- Shape chọn:
-- Commit hash:
-- Run id dẫn chứng:
-- Pass rate / pass^5 / seed min-max / variance:
-- Cost per success (mô phỏng, VND):
-- Crash safety:
-- Secret leak / approval bypass:
+- Shape chọn: workflow
+- Commit hash: 55f49a7
+- Run id dẫn chứng: R-workflow-C-001-s11
+- Pass rate / pass^5 / seed min-max / variance: 1.000 / 1.000 / 1.000-1.000 / 0.000000
+- Cost per success (mô phỏng, VND): 27.86
+- Crash safety: 20/20 (reports/crash.json)
+- Secret leak / approval bypass: 0 / 0
 
 Ví dụ một dòng đã điền: `- Shape chọn: workflow`, `- Crash safety: 20/20 (src/reports/crash.json)`.
 
