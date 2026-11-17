@@ -119,6 +119,17 @@ Dữ liệu được trích xuất hoàn toàn tự động từ file bằng ch�
   Shape A đạt hiệu năng vượt trội trên mọi khía cạnh: Pass rate tuyệt đối 100%, độ dao động bằng 0 (`variance = 0`), chi phí vận hành rẻ nhất (27.86 VND/success so với 49.57 VND của Swarm), loại bỏ hoàn toàn nguy cơ hallucination.
   *(Chi tiết xem thêm tại `report/team/decision_adr.md`).*
 
+### 4.4 Kết quả tự kiểm tra trên bộ Hidden (`src/reports/hidden_selfcheck.json`)
+Thực hiện tự kiểm tra trên bộ dữ liệu ẩn gồm 40 claims không nhãn $\times$ 5 seeds = 200 trials/shape (tổng cộng 600 trials cho 3 shape):
+
+| Shape kiểm thử | Số trials | Số ca lỗi (`error`) | Nghi ngờ rò rỉ (`leak_suspect`) | Trace hợp lệ | Phân bố trạng thái (`denied` / `resolved` / `needs_info` / `escalated`) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **A: Workflow** | 200 | **0** | **0** | **100%** | 95 / 90 / 5 / 10 |
+| **B: Single ReAct** | 200 | **0** | **0** | **100%** | 95 / 90 / 5 / 10 |
+| **C: Orchestrator** | 200 | **0** | **0** | **100%** | 95 / 90 / 5 / 10 |
+
+*Nhận xét:* Toàn bộ 200 trials của Shape A (Workflow) cũng như hai shape còn lại đều hoàn thành xuất sắc, không có trường hợp nào phát sinh lỗi (`error_trials = 0`), không rò rỉ secret (`leak_suspect_trials = 0`), và 100% trace thỏa mãn Trace Contract v1. Ba kiến trúc đạt sự đồng thuận tuyệt đối về phân loại trạng thái trên toàn bộ 40 claims ẩn.
+
 ---
 
 ## 5. Khó khăn và cách xử lý

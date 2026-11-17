@@ -22,7 +22,7 @@ Phụ trách Shape B — Single Agent trong `src/lab8/shapes/single.py`: xây d�
 - Gửi quote đầy đủ đến `durability.issue_refund`; không để model gọi công cụ ghi hoặc tự quyết định số tiền.
 - Ghi trace theo run, chỉ đưa vào trace các dữ kiện cần thiết, không ghi ticket thô.
 - Thêm `src/tests/test_single.py` với hai test: giới hạn ReAct và xử lý claim thiếu `order_id`.
-- Commit chính: chưa có; bổ sung hash sau khi commit.
+- Commit chính: c05b19e (tích hợp Shape B Single Agent và bộ test unit riêng).
 - Phần CP3 truyền `crash_at` chưa nằm trong phần bàn giao này; theo phân công, TV4 tiếp tục xử lý.
 
 ## 4. Bằng chứng
